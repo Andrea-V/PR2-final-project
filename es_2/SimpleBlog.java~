@@ -1,0 +1,34 @@
+package blog_pckg;
+
+import java.util.List;
+
+public interface SimpleBlog {
+	
+	//aggiunge bob agli utenti attivi sul blog. lancia un'eccezione se pass non e' corretta
+	void addBlogger(Blogger bob, String pass) throws UnauthorizedAccessException;
+	
+	//elimina bob agli utenti attivi sul blog. lancia un'eccezione se pass non e' corretta
+	void deleteBlogger(Blogger bob, String pass) throws UnauthorizedAccessException;
+
+	//inserisce nel blog un post di bob. ritorna un id numerico del post
+	int post(String message, Blogger bob) throws UnauthorizedBloggerException;
+	
+	//ritorna l'ultimo post inserito da bob. lancia un'eccezione se non ci sono post di bob
+	String readLast(Blogger bob) throws EmptyPostException;
+	
+	//ritorna l'ultimo post inserito. lancia un'eccezione se il blog e' vuoto
+	String readLast() throws EmptyPostException;
+	
+	//ritorna tutti i post inseriti da bob, nell'ordine di inserimento
+	List<String> readAll(Blogger bob);
+		
+	//ritorna tutti i post inseriti, nell'ordine di inserimento
+	List<String> readAll();
+
+	//cancella il post con codice code, lancia un'eccezione se non esiste un messagio con quel codice
+	void delete(int code) throws WrongCodePostException;
+
+	//restituisce true se il blog e' vuoto
+	boolean emptyBlog();
+	
+}

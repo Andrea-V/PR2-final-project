@@ -1,0 +1,19 @@
+- ESERCIZIO 1:
+	Per implementare lo scoping dinamico occorre sostanzialmente modificare la chiusura delle funzioni, che ora conterra'
+	solamente il codice della funzione.
+	Queste modifiche in generale semplificano  l'interprete, in particolar modo la parte dedicata alla chiamata di funzione
+	e al passaggio dei parametri: l'ambiente della funzione risultera' quindi l'ambiente del chiamante piu' i binding dei 
+	parametri formali con quelli attuali (piu' eventuali variabili locali).
+	- Per compilare: make
+	- Per eseguire i test: make test
+
+- ESERCIZIO 2:
+	Per aumentare il livello di astrazione si e' scelto di rappresentare il post del blog con una classe apposita Post.
+	La funzione di astrazione e' data dal metodo toString() di Blog. Essa racchiude tutte le informazioni rilevanti
+	riguardo al blog: numero di Blogger ammessi, nome dei Blogger ammessi, numero di Post scritti, elenco dei Post scritti.
+	L'inveriante di rappresentazione e' invece definita nel metodo repOk(): si richiede che i campi di Blog siano diversi
+	da null e che le lunghezze delle liste non siano negative. Inoltre, l'id dei Post dovra' essere >= al numero di 
+	Post presenti nel Blog meno 1 (sara' = se nessun messaggio e' stato cancellato, altrimenti sara' maggiore). 
+	- per compilare: make
+	- per eseguire i test: make run
+

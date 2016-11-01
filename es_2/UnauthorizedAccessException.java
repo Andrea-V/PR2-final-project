@@ -1,0 +1,9 @@
+
+public class UnauthorizedAccessException extends Exception {
+
+	private static final long serialVersionUID = -4016867498517436630L;
+	
+	public UnauthorizedAccessException(String msg){
+		super(msg);
+	}
+}

@@ -1,0 +1,6 @@
+all:
+	javac SimpleBlog.java Blog.java Blogger.java Post.java EmptyPostException.java UnauthorizedAccessException.java UnauthorizedBloggerException.java WrongCodePostException.java Main.java
+
+run:
+	java -classpath "." Main
+

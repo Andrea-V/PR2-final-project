@@ -1,0 +1,77 @@
+open Syntax;;
+open Environment;;
+open Interpreter;;
+
+(*funzioni di supporto*)
+let rec s_equals(l,r) = 
+	match (l,r) with
+	| (Null         ,  Null      ) 	-> true
+	| (Cons(_)      ,  Null      )	-> false
+	| (Null         , Cons(_)    )	-> false
+	| (Cons(lh,lt)  , Cons(rh,rt))	-> lh=rh && s_equals(lt,rt)
+;;
+
+let rec s_append(l,r) =
+	match r with
+	| Null 			-> l
+	| Cons(hr,tr)	-> s_append(Cons(hr,l),tr) (*TODO sistemare ordine elementi*)
+;;
+
+let rec s_member(e,l) =
+	match l with
+	| Null		-> false
+	| Cons(x,xs)-> e=x || s_member(e,xs)
+;;
+
+let rec s_compare(l,r) =
+	match l with
+	| Null		-> true
+	| Cons(lh,lt)-> s_member(lh,r) && s_compare(lt,r)
+;;
+
+(*semantica delle operazioni primitive*)
+
+let p_and(b1,b2,env) =
+	match (semexp(b1,env),semexp(b2,env)) with
+	| (EBool(bl),EBool(bf))	-> EBool(bl && bf)
+	| _						-> failwith "type mismatch for 'and' operator"
+;;
+
+let p_or(b1,b2,env) =
+	match (semexp(b1,env),semexp(b2,env)) with
+	| (EBool(bl),EBool(bf))	-> EBool(bl || bf)
+	| _						-> failwith "type mismatch for 'or' operator"
+;;
+
+let p_not(b,env) =
+	match semexp(b,env) with
+	| EBool(bv)	-> EBool(not bv)
+	| _			-> failwith "type mismatch for 'not' operator"
+;;
+
+let p_compare(e1,e2,env) =
+	match (semexp(e1,env),semexp(e2,env)) with
+	| (EList(l1),EList(l2))	-> EBool(s_compare(l1,l2))
+	| _						-> failwith "type mismatch for '<=' operator"
+;;
+
+let p_equals(e1,e2,env) =
+	match (semexp(e1,env),semexp(e2,env)) with
+	| (EList(l1),EList(l2))	-> EBool(s_equals(l1,l2))
+	| _						-> failwith "type mismatch for '==' operator"
+;;
+
+let p_isempty(e,env) =
+	match semexp(e,env) with
+	| EList(l)	->	begin match l with
+					| Null	-> EBool(true)
+					| _		-> EBool(false)					
+					end
+	| _			-> failwith "type mismatch for 'isEmpty' operator"
+;;
+
+let p_append(e1,e2,env) =
+	match (semexp(e1,env),semexp(e2,env)) with
+	| (EList(l1),EList(l2))	-> EList(s_append(l1,l2))
+	| _						-> failwith "type mismatch for '@' operator"
+;;
